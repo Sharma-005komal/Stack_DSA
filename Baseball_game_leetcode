@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        vector<int> record;
+        for(const auto& op:ops)
+        {
+            if(op == "+")
+            {
+                record.emplace_back(record[record.size()-2] + record.back());
+            }
+            else if(op == "D")
+            {
+                record.emplace_back(2*record.back());
+            }
+            else if(op == "C")
+            {
+                record.pop_back();
+            }
+            else
+            {
+                record.emplace_back(stoi(op));
+            }
+        }
+       
+        return accumulate(record.begin(), record.end(), 0);
+    }
+};
