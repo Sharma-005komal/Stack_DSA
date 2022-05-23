@@ -1,0 +1,74 @@
+/*************************Implement stack using queue (O(1)amortized approach)********************************/
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Queue
+{
+    stack<int> input, output;
+    public:
+    
+        Queue()
+        {
+            //Initialize data structure
+        }
+        
+        //Push new element
+        void push(int x)
+        {
+            cout<<"The element pushed is"<<" "<<x<<endl;
+            input.push(x);
+        }
+        
+        //Pop element from queue
+        int pop()
+        {
+            if(output.empty())
+            {
+                while(input.size())
+                {
+                    output.push(input.top());
+                    input.pop();
+                }
+            }
+            int value = output.top();
+            output.pop();
+            return value;
+        }
+        
+        //Return topmost element from queue
+        int Top()
+        {
+            if(output.empty())
+            {
+                while(input.size())
+                {
+                    output.push(input.top());
+                    input.pop();
+                }
+            }
+            return output.top();
+        }
+        
+        //Return the size of queue
+        int size()
+        {
+            return input.size() + output.size();
+        }
+};
+
+int main()
+{
+    Queue q;
+    q.push(3);
+    q.push(4);
+    
+    cout<<"The element poped"<<" "<<q.pop()<<endl;
+    
+    q.push(5);
+    
+    cout<<"The top of the queue"<<" "<<q.Top()<<endl;
+
+    cout<<"The size of the queue"<<" "<<q.size()<<endl;
+    return 0;
+}
