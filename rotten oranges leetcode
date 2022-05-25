@@ -1,0 +1,62 @@
+class Solution {
+    void is_valid(vector<vector<int>>& grid, int x, int y, int &countFreshOrange, queue<pair<int, int>> &q)
+    {
+        if(x<0 || y<0|| x>=grid.size() || y>=grid[0].size() || grid[x][y] == 2 || grid[x][y] == 0)
+        {
+            return;
+        }
+        grid[x][y] = 2;
+        countFreshOrange--;
+        q.push({x,y});
+    }
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        if(grid.empty())
+        {
+            return 0;
+        }
+        int n = grid.size();
+        int m = grid[0].size();
+        queue<pair<int, int>> q;
+        int countFreshOrange=0, time=0;
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+                 if(grid[i][j]==2)
+                 {
+                     q.push({i,j});
+                 }
+                if(grid[i][j] == 1)
+                {
+                    countFreshOrange++;
+                }
+            }
+        }
+        if(countFreshOrange==0)
+        {
+            return 0;
+        }
+        while(!q.empty() && countFreshOrange != 0)
+        {
+            time++;
+            int size = q.size();
+            for(int i=0; i<size; i++)
+            {
+                int x = q.front().first;
+                int y = q.front().second;
+                q.pop();
+                is_valid(grid, x, y+1, countFreshOrange, q);
+                is_valid(grid, x, y-1, countFreshOrange, q);
+                is_valid(grid, x+1, y, countFreshOrange, q);
+                is_valid(grid, x-1, y, countFreshOrange, q);
+            }
+        }
+        if(countFreshOrange == 0)
+        {
+            return time;
+        }
+        else 
+            return -1;
+    }
+};
